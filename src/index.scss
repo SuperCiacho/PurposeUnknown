@@ -1,0 +1,47 @@
+@import 'globals';
+
+@include react-md-everything;
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  height: 100%;
+  background-color: #62a4b6
+}
+
+#root {
+  height: 100%;
+}
+
+.app {
+  display: grid;
+  height: inherit;
+  grid-template-rows: 60px auto;
+  grid-template-columns: 180px auto;
+  grid-template-areas: 
+    "header header"
+    "nav main"
+}
+
+.app > header {
+  grid-area: header;
+}
+
+.app > nav {
+  display: flex;
+  grid-area: nav;
+  padding: 5px 0 5px 5px;
+  align-content: stretch;
+}
+
+.app > main {
+  grid-area: main;
+  padding: 5px 5px 5px 0;
+  align-content: stretch;
+  align-items: stretch;
+}
+
+.app > main > *:first-child {
+  height: 100%;
+}
