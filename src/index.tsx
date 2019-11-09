@@ -12,8 +12,10 @@ WebFontLoader.load({
 });
 
 initilizeConfiguration()
-.then(() => import('./components/app'))
-.then(AppModule => ReactDOM.render(<AppModule.App />, document.getElementById('root')));
+.then(async () => {
+    const AppModule = await import('./components/app');
+    ReactDOM.render(<AppModule.App />, document.getElementById('root'))
+});
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
