@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Route, Switch, RouteComponentProps, withRouter } from 'react-router-dom';
-import { Content } from '../../content/content';
 
 export const navItems = [{
   label: 'Inbox',
@@ -21,13 +20,12 @@ export const navItems = [{
   icon: 'drafts',
 }];
 
+const Content = React.lazy(() => import('../../content/content').then(x => ({ default: x.Content })))
 
-interface AppRouterProps extends RouteComponentProps<{}> {
-}
-
+type AppRouterProps = RouteComponentProps<{}>;
 const AppRouterComponent: React.FunctionComponent<AppRouterProps> = (props) => (
   <Switch key={props.location.pathname}>
-    {navItems.map(x => <Route key={x.label} path={x.to} exact={x.exact} component={Content} />)}
+    {navItems.map(x => <React.Suspense fallback="I'm loading here"><Route key={x.label} path={x.to} exact={x.exact} component={Content} /></React.Suspense>)}
   </Switch>
 );
 

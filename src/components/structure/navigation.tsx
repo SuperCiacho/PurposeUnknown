@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { NavigationDrawer } from 'react-md/lib/NavigationDrawers';
-import { navItems } from './router/router';
-import { NavLink, withRouter, RouteComponentProps } from 'react-router-dom';
+import { navItems } from './router';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { Button } from 'react-md';
 
 interface NavigationComponentProps extends RouteComponentProps<{}> {
 }
@@ -34,15 +35,13 @@ class NavigationC extends React.Component<NavigationComponentProps, NavigationCo
     public render() {
         const { toolbarTitle } = this.state;
         return (
-            <nav>
-                <NavigationDrawer
-                    toolbarTitle={toolbarTitle}
-                    mobileDrawerType={NavigationDrawer.DrawerTypes.TEMPORARY_MINI}
-                    tabletDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
-                    desktopDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
-                    navItems={navItems.map(props => <NavLink {...props} key={props.to} />)}
-                />
-            </nav>
+            <NavigationDrawer
+                toolbarTitle={toolbarTitle}
+                mobileDrawerType={NavigationDrawer.DrawerTypes.TEMPORARY_MINI}
+                tabletDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
+                desktopDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
+                navItems={navItems.map(({ to, label, exact, icon}) => <Button key={label} >{label}</Button>)}
+            />
         );
     }
 }
