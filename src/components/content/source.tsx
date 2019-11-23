@@ -1,32 +1,23 @@
 import React from 'react'
-import { Currency } from '../../models/currency';
-import { AppContext } from '../../app.context';
-import { trackPromise, usePromiseTracker } from 'react-promise-tracker';
+import { usePromiseTracker, Config } from 'react-promise-tracker';
 import { CircularProgress } from 'react-md/lib/Progress';
 import { SelectField } from 'react-md/lib/SelectFields';
 import { commonSelectProps } from './content';
+import { useCurrencies } from './hooks';
 
 type SourceSelectorProps = { onSelect(currencyName: string): void }
-type State = { items: Currency[]; selected?: string; };
 
 export const SourceSelector: React.FunctionComponent<SourceSelectorProps> = ({ onSelect }) => {
-    const [state, setState] = React.useState<State>({ items: [] });
-    const { services } = React.useContext(AppContext);
-    React.useEffect(
-        () => { trackPromise(services.currencies.list().then(res => setState({ items: res })), 'source') },
-        [services.currencies]
-    );
+    const trackerConfig: Config = { area: 'source', delay: 500 };
+    const [selected, setSelected] = React.useState<string>();
+    const items = useCurrencies('EUR', trackerConfig.area)
     const onSourceChanged = React.useCallback(
-        (name) => {
-            setState(s => ({ ...s, selected: name }));
-            onSelect(name)
-        },
+        (name) => { setSelected(name); onSelect(name); },
         [onSelect]
     );
-    const asyncState = usePromiseTracker({ area: 'source ', delay: 5000 });
-
-    if (asyncState.promiseInProgress) {
-        return <CircularProgress id="source" />;
+    const { promiseInProgress } = usePromiseTracker(trackerConfig);
+    if (promiseInProgress) {
+        return <CircularProgress id={trackerConfig.area!} />;
     }
 
     return (
@@ -36,8 +27,8 @@ export const SourceSelector: React.FunctionComponent<SourceSelectorProps> = ({ o
             label="Source currency"
             placeholder="Source currency"
             name="source-currency"
-            menuItems={state.items}
-            value={state.selected}
+            menuItems={items}
+            value={selected}
             onChange={onSourceChanged}
         />
     )
