@@ -3,14 +3,15 @@ import { usePromiseTracker, Config } from 'react-promise-tracker';
 import { CircularProgress } from 'react-md/lib/Progress';
 import { SelectField } from 'react-md/lib/SelectFields';
 import { useCurrencies } from '../../models/currency/hooks';
+import { OnSelectCallback } from './typings';
 
-type SourceSelectorProps = { onSelect(currencyName: string): void }
+type SourceSelectorProps = { onSelect: OnSelectCallback }
 
 export const SourceSelector: React.FunctionComponent<SourceSelectorProps> = ({ onSelect }) => {
     const trackerConfig: Config = { area: 'source', delay: 500 };
     const [selected, setSelected] = React.useState<string>();
     const items = useCurrencies('EUR', trackerConfig.area)
-    const onSourceChanged = React.useCallback((name) => { setSelected(name); onSelect(name); }, [onSelect]);
+    const onSourceChanged = React.useCallback((name, ix) => { setSelected(name); onSelect(items![ix]); }, [items, onSelect]);
     const { promiseInProgress } = usePromiseTracker(trackerConfig);
 
     if (promiseInProgress) {

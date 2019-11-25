@@ -25,7 +25,7 @@ const Content = React.lazy(() => import('../../content/content').then(x => ({ de
 type AppRouterProps = RouteComponentProps<{}>;
 const AppRouterComponent: React.FunctionComponent<AppRouterProps> = (props) => (
   <Switch key={props.location.pathname}>
-    {navItems.map(x => <React.Suspense fallback="I'm loading here"><Route key={x.label} path={x.to} exact={x.exact} component={Content} /></React.Suspense>)}
+    {navItems.map(x => <React.Suspense fallback={`I'm loading ${x.label} here`}><Route key={x.label} path={x.to} exact={x.exact} component={Content} /></React.Suspense>)}
   </Switch>
 );
 

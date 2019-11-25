@@ -6,23 +6,23 @@ import { Chart } from './chart';
 import { SourceSelector } from './source';
 import { TargetSelector } from './target';
 import { Currency } from '../../models/currency';
+import { OnSelectCallback } from './typings';
 
-interface ContentProps {
-    prop?: any;
-}
+interface ContentProps { }
 
 interface ContentState {
-    selectedSource?: string;
+    selectedSource?: Currency;
     selectedTarget?: Currency;
 }
 
 export const Content: React.FunctionComponent<ContentProps> = () => {
     const [state, setState] = React.useState<ContentState>({});
-    const onSelectSource = React.useCallback((selected: string) => setState(s => ({ ...s, selectedSource: selected })), [setState])
-    const onSelectTarget = React.useCallback((selected: Currency) => setState(s => ({ ...s, selectedTarget: selected })), [setState])
-    
+    const onSelectSource = React.useCallback<OnSelectCallback>(selected => setState(s => ({ ...s, selectedSource: selected })), [setState])
+    const onSelectTarget = React.useCallback<OnSelectCallback>(selected => setState(s => ({ ...s, selectedTarget: selected })), [setState])
+
     const { selectedSource, selectedTarget } = state;
     const targetName = selectedTarget && selectedTarget.name;
+    const sourceName = selectedSource && selectedSource.name;
     const value = selectedTarget && selectedTarget.value;
 
     return (
@@ -32,19 +32,18 @@ export const Content: React.FunctionComponent<ContentProps> = () => {
                     <SourceSelector onSelect={onSelectSource} />
                 </Cell>
                 <Cell size={6} position="right">
-                    <TargetSelector source={selectedSource} onSelect={onSelectTarget} />
+                    <TargetSelector source={sourceName} onSelect={onSelectTarget} />
                 </Cell>
                 <Cell size={12}>
                     <Card>
                         <CardTitle
-                            title={`${selectedSource || '???'} - ${targetName || '???'}`}
+                            title={`${sourceName || '???'} - ${targetName || '???'}`}
                             subtitle={`Exchange rate: ${value || '---'}`}
                         />
                         <CardText>
-                            <Chart source={state.selectedSource} target={targetName} />
+                            <Chart source={sourceName} target={targetName} />
                         </CardText>
                     </Card>
-
                 </Cell>
             </Grid>
         </Paper>

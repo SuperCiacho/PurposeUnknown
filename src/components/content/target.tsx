@@ -5,15 +5,17 @@ import { CircularProgress } from 'react-md/lib/Progress';
 import { SelectField } from 'react-md/lib/SelectFields';
 import { Currency } from '../../models/currency';
 import { useCurrencies } from '../../models/currency/hooks';
+import { OnSelectCallback, FieldProps } from './typings';
+
 type TargetSelectorProps = {
     source?: string,
-    onSelect(currency: Currency): void
+    onSelect: OnSelectCallback
 };
 
 export const TargetSelector: React.FunctionComponent<TargetSelectorProps> = ({ source, onSelect }) => {
     const trackerConfig: Config = { area: 'target', delay: 500 };
     const [selected, setSelected] = React.useState<string>();
-    let items = useCurrencies(source, trackerConfig.area).map(x => ({ ...x, customize }));
+    const items = useCurrencies(source, trackerConfig.area).map(x => ({ ...x, customize }));
     const onTargetChanged = React.useCallback((name, ix) => { setSelected(name); onSelect(items![ix]) }, [onSelect, items]);
 
     const { promiseInProgress } = usePromiseTracker(trackerConfig);
@@ -45,13 +47,3 @@ function customize(fieldProps: FieldProps<Currency>): ListItemProps {
     }
 };
 
-type FieldProps<T> = {
-    index: number;
-    active: boolean;
-    disabled: boolean;
-    itemValue: keyof T;
-    value: string
-    props: ListItemProps
-    item: T
-    field: React.ReactElement
-}
