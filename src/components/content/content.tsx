@@ -6,28 +6,22 @@ import { Chart } from './chart';
 import { SourceSelector } from './source';
 import { TargetSelector } from './target';
 import { Currency } from '../../models/currency';
-import { OnSelectCallback } from './typings';
 
-interface ContentProps { }
-
-export const Content: React.FunctionComponent<ContentProps> = () => {
-    const [selectedSource, selectSource] = React.useState<Currency>();
-    const [selectedTarget, selectTarget] = React.useState<Currency>();
-    const onSelectSource = React.useCallback<OnSelectCallback>(selectSource, [selectSource])
-    const onSelectTarget = React.useCallback<OnSelectCallback>(selectTarget, [selectTarget])
-
-    const targetName = selectedTarget && selectedTarget.name;
-    const sourceName = selectedSource && selectedSource.name;
-    const value = selectedTarget && selectedTarget.value;
+export const Content: React.FunctionComponent = () => {
+    const [source, selectSource] = React.useState<Currency>();
+    const [target, selectTarget] = React.useState<Currency>();
+    const targetName = target && target.name;
+    const sourceName = source && source.name;
+    const value = target && target.value;
 
     return (
         <Paper zDepth={2}>
             <Grid spacing={1}>
                 <Cell size={6}>
-                    <SourceSelector onSelect={onSelectSource} />
+                    <SourceSelector onSelect={selectSource} />
                 </Cell>
                 <Cell size={6} position="right">
-                    <TargetSelector source={sourceName} onSelect={onSelectTarget} />
+                    <TargetSelector source={sourceName} onSelect={selectTarget} />
                 </Cell>
                 <Cell size={12}>
                     <Card>
