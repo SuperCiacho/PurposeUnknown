@@ -7,7 +7,7 @@ import { SelectionContext } from '../../utils/context';
 
 export const SourceSelector: React.FunctionComponent = () => {
     const trackerConfig: Config = { area: 'source', delay: 500 };
-    const { source: selectedSource, selectSource } = React.useContext(SelectionContext)!;
+    const { source, selectSource } = React.useContext(SelectionContext)!;
     const items = useCurrencies('EUR', trackerConfig.area)
     const onSourceChanged = React.useCallback((_, ix) => { selectSource(items![ix]); }, [items, selectSource]);
     const asyncComponent = useAsync(trackerConfig);
@@ -20,7 +20,7 @@ export const SourceSelector: React.FunctionComponent = () => {
             id="source"
             label="Source currency"
             placeholder="Source currency"
-            value={selectedSource && selectedSource.name}
+            value={source && source.name}
             menuItems={items}
             itemValue="name"
             position={SelectField.Positions.BELOW}

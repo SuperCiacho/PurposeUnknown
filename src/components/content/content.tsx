@@ -9,12 +9,12 @@ import { Currency } from '../../models/currency';
 import { SelectionContext, ISelectionContext } from '../../utils/context';
 
 export const Content: React.FunctionComponent = () => {
-    const [selectedSource, selectSource] = React.useState<Currency>();
-    const [selectedTarget, selectTarget] = React.useState<Currency>();
-    const selection = React.useMemo<ISelectionContext>(() => ({ source: selectedSource, target: selectedTarget, selectTarget, selectSource }), [selectedSource, selectedTarget])
-    const targetName = selectedTarget && selectedTarget.name;
-    const sourceName = selectedSource && selectedSource.name;
-    const value = selectedTarget && selectedTarget.value;
+    const [source, selectSource] = React.useState<Currency>();
+    const [target, selectTarget] = React.useState<Currency>();
+    const selection = React.useMemo<ISelectionContext>(() => ({ source, target, selectTarget, selectSource }), [source, target])
+    const targetName = target && target.name;
+    const sourceName = source && source.name;
+    const value = target && target.value;
 
     return (
         <SelectionContext.Provider value={selection}>
