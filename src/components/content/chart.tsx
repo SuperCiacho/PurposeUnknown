@@ -1,16 +1,16 @@
 import React from 'react'
 import { List, ListItem } from 'react-md/lib/Lists';
-import { usePromiseTracker, Config } from 'react-promise-tracker';
-import { CircularProgress } from 'react-md/lib/Progress';
+import { Config } from 'react-promise-tracker';
 import { useExchange } from '../../models/currency/hooks';
+import { useAsync } from '../../utils/hooks';
 
 type ChartProps = { source?: string, target?: string };
 export const Chart: React.FunctionComponent<ChartProps> = ({ source, target }) => {
-    const trackerArea: Config = { area: 'chart' };
-    const data = useExchange(source, target, trackerArea.area);
-    const { promiseInProgress } = usePromiseTracker(trackerArea);
-    if (promiseInProgress) {
-        return <CircularProgress id="chart" />;
+    const trackerConfig: Config = { area: 'chart' };
+    const data = useExchange(source, target, trackerConfig.area);
+    const asyncComponent = useAsync(trackerConfig);
+    if (asyncComponent) {
+        return asyncComponent
     }
 
     if (!data || data.length === 0) {

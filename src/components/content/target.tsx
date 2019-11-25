@@ -1,31 +1,26 @@
 import React from 'react'
-import { usePromiseTracker, Config } from 'react-promise-tracker';
+import { Config } from 'react-promise-tracker';
 import { ListItemProps } from 'react-md/lib/Lists';
-import { CircularProgress } from 'react-md/lib/Progress';
 import { SelectField } from 'react-md/lib/SelectFields';
 import { Currency } from '../../models/currency';
 import { useCurrencies } from '../../models/currency/hooks';
+import { useAsync } from '../../utils/hooks';
 import { OnSelectCallback, FieldProps } from './typings';
 
-type TargetSelectorProps = {
-    source?: string,
-    onSelect: OnSelectCallback
-};
-
+type TargetSelectorProps = { source?: string, onSelect: OnSelectCallback };
 export const TargetSelector: React.FunctionComponent<TargetSelectorProps> = ({ source, onSelect }) => {
     const trackerConfig: Config = { area: 'target', delay: 500 };
     const [selected, setSelected] = React.useState<string>();
     const items = useCurrencies(source, trackerConfig.area).map(x => ({ ...x, customize }));
     const onTargetChanged = React.useCallback((name, ix) => { setSelected(name); onSelect(items![ix]) }, [onSelect, items]);
-
-    const { promiseInProgress } = usePromiseTracker(trackerConfig);
-    if (promiseInProgress) {
-        return <CircularProgress id={trackerConfig.area!} />;
+    const asyncComponent = useAsync(trackerConfig);
+    if (asyncComponent) {
+        return asyncComponent
     }
 
     return (
         <SelectField
-            id="target-currency"
+            id="target"
             label="Target currency"
             placeholder="Target currency"
             menuItems={items}

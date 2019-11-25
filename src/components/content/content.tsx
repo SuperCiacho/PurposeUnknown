@@ -10,17 +10,12 @@ import { OnSelectCallback } from './typings';
 
 interface ContentProps { }
 
-interface ContentState {
-    selectedSource?: Currency;
-    selectedTarget?: Currency;
-}
-
 export const Content: React.FunctionComponent<ContentProps> = () => {
-    const [state, setState] = React.useState<ContentState>({});
-    const onSelectSource = React.useCallback<OnSelectCallback>(selected => setState(s => ({ ...s, selectedSource: selected })), [setState])
-    const onSelectTarget = React.useCallback<OnSelectCallback>(selected => setState(s => ({ ...s, selectedTarget: selected })), [setState])
+    const [selectedSource, selectSource] = React.useState<Currency>();
+    const [selectedTarget, selectTarget] = React.useState<Currency>();
+    const onSelectSource = React.useCallback<OnSelectCallback>(selectSource, [selectSource])
+    const onSelectTarget = React.useCallback<OnSelectCallback>(selectTarget, [selectTarget])
 
-    const { selectedSource, selectedTarget } = state;
     const targetName = selectedTarget && selectedTarget.name;
     const sourceName = selectedSource && selectedSource.name;
     const value = selectedTarget && selectedTarget.value;
