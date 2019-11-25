@@ -3,15 +3,13 @@ import { Config } from 'react-promise-tracker';
 import { SelectField } from 'react-md/lib/SelectFields';
 import { useCurrencies } from '../../models/currency/hooks';
 import { useAsync } from '../../utils/hooks';
-import { OnSelectCallback } from './typings';
+import { SelectionContext } from '../../utils/context';
 
-type SourceSelectorProps = { onSelect: OnSelectCallback }
-
-export const SourceSelector: React.FunctionComponent<SourceSelectorProps> = ({ onSelect }) => {
+export const SourceSelector: React.FunctionComponent = () => {
     const trackerConfig: Config = { area: 'source', delay: 500 };
-    const [selected, setSelected] = React.useState<string>();
+    const { source: selectedSource, selectSource } = React.useContext(SelectionContext)!;
     const items = useCurrencies('EUR', trackerConfig.area)
-    const onSourceChanged = React.useCallback((name, ix) => { setSelected(name); onSelect(items![ix]); }, [items, onSelect]);
+    const onSourceChanged = React.useCallback((_, ix) => { selectSource(items![ix]); }, [items, selectSource]);
     const asyncComponent = useAsync(trackerConfig);
     if (asyncComponent) {
         return asyncComponent
@@ -22,7 +20,7 @@ export const SourceSelector: React.FunctionComponent<SourceSelectorProps> = ({ o
             id="source"
             label="Source currency"
             placeholder="Source currency"
-            value={selected}
+            value={selectedSource && selectedSource.name}
             menuItems={items}
             itemValue="name"
             position={SelectField.Positions.BELOW}

@@ -5,14 +5,14 @@ import { SelectField } from 'react-md/lib/SelectFields';
 import { Currency } from '../../models/currency';
 import { useCurrencies } from '../../models/currency/hooks';
 import { useAsync } from '../../utils/hooks';
-import { OnSelectCallback, FieldProps } from './typings';
+import { FieldProps } from './typings';
+import { SelectionContext } from '../../utils/context';
 
-type TargetSelectorProps = { source?: string, onSelect: OnSelectCallback };
-export const TargetSelector: React.FunctionComponent<TargetSelectorProps> = ({ source, onSelect }) => {
+export const TargetSelector: React.FunctionComponent = () => {
     const trackerConfig: Config = { area: 'target', delay: 500 };
-    const [selected, setSelected] = React.useState<string>();
-    const items = useCurrencies(source, trackerConfig.area).map(x => ({ ...x, customize }));
-    const onTargetChanged = React.useCallback((name, ix) => { setSelected(name); onSelect(items![ix]) }, [onSelect, items]);
+    const { source, target, selectTarget } = React.useContext(SelectionContext)!;
+    const items = useCurrencies(source && source.name, trackerConfig.area).map(x => ({ ...x, customize }));
+    const onTargetChanged = React.useCallback((_, ix) => { selectTarget(items![ix]) }, [selectTarget, items]);
     const asyncComponent = useAsync(trackerConfig);
     if (asyncComponent) {
         return asyncComponent
@@ -27,7 +27,7 @@ export const TargetSelector: React.FunctionComponent<TargetSelectorProps> = ({ s
             itemValue="name"
             itemProps="customize"
             position={SelectField.Positions.BELOW}
-            value={selected}
+            value={target && target.name}
             onChange={onTargetChanged}
             fullWidth
         />
