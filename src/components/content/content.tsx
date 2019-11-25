@@ -1,8 +1,7 @@
 import React from 'react';
-import { Paper } from 'react-md/lib/Papers';
-import { SelectField, } from 'react-md/lib/SelectFields';
+import { Card, CardTitle, CardText } from 'react-md/lib/Cards';
 import { Grid, Cell } from 'react-md/lib/Grids';
-import { Card, CardTitle, CardText } from 'react-md';
+import { Paper } from 'react-md/lib/Papers';
 import { Chart } from './chart';
 import { SourceSelector } from './source';
 import { TargetSelector } from './target';
@@ -15,12 +14,6 @@ interface ContentProps {
 interface ContentState {
     selectedSource?: string;
     selectedTarget?: Currency;
-}
-
-export const commonSelectProps = {
-    itemValue: "name",
-    position: SelectField.Positions.BELOW,
-    fullWidth: true
 }
 
 export const Content: React.FunctionComponent<ContentProps> = () => {

@@ -1,4 +1,4 @@
-import { Currency, CurrencyExchange } from './currency';
+import { Currency, CurrencyExchange } from '.';
 
 interface Rates { [key: string]: number; }
 interface ExchangeRates { [date: string]: { [currencyName: string]: number }; }

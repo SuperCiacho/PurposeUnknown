@@ -1,11 +1,10 @@
 import React from 'react'
-import { Currency } from '../../models/currency';
-import { SelectField } from 'react-md/lib/SelectFields';
-import { commonSelectProps } from './content';
 import { usePromiseTracker, Config } from 'react-promise-tracker';
-import { CircularProgress } from 'react-md/lib/Progress';
 import { ListItemProps } from 'react-md/lib/Lists';
-import { useCurrencies } from './hooks';
+import { CircularProgress } from 'react-md/lib/Progress';
+import { SelectField } from 'react-md/lib/SelectFields';
+import { Currency } from '../../models/currency';
+import { useCurrencies } from '../../models/currency/hooks';
 type TargetSelectorProps = {
     source?: string,
     onSelect(currency: Currency): void
@@ -24,14 +23,16 @@ export const TargetSelector: React.FunctionComponent<TargetSelectorProps> = ({ s
 
     return (
         <SelectField
-            {...commonSelectProps}
             id="target-currency"
             label="Target currency"
             placeholder="Target currency"
             menuItems={items}
+            itemValue="name"
             itemProps="customize"
+            position={SelectField.Positions.BELOW}
             value={selected}
             onChange={onTargetChanged}
+            fullWidth
         />
     )
 };

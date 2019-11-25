@@ -2,7 +2,7 @@ import React from 'react'
 import { List, ListItem } from 'react-md/lib/Lists';
 import { usePromiseTracker, Config } from 'react-promise-tracker';
 import { CircularProgress } from 'react-md/lib/Progress';
-import { useExchange } from './hooks';
+import { useExchange } from '../../models/currency/hooks';
 
 type ChartProps = { source?: string, target?: string };
 export const Chart: React.FunctionComponent<ChartProps> = ({ source, target }) => {

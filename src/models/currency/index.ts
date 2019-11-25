@@ -1,4 +1,3 @@
-
 export class Currency {
     constructor(name: string, value: number) {
         this.name = name;
