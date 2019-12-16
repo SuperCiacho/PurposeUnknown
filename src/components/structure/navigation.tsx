@@ -55,5 +55,5 @@ function useLinks(): React.ReactElement[] {
 }
 
 function isLinkActive(routeMatch: match, location: Location): boolean {
-    return (routeMatch && routeMatch.url) === location.pathname
+    return routeMatch?.url === location.pathname;
 }
