@@ -1,8 +1,8 @@
-import * as React from 'react';
+import React from 'react';
+import { Button } from 'react-md/lib/Buttons';
 import { NavigationDrawer } from 'react-md/lib/NavigationDrawers';
+import { withRouter, RouteComponentProps } from 'react-router';
 import { navItems } from './router';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { Button } from 'react-md';
 
 interface NavigationComponentProps extends RouteComponentProps<{}> {
 }
@@ -12,11 +12,7 @@ interface NavigationComponentState {
 }
 
 class NavigationC extends React.Component<NavigationComponentProps, NavigationComponentState> {
-
-    constructor(props: NavigationComponentProps) {
-        super(props);
-        this.state = { toolbarTitle: '' };
-    }
+    public readonly state: Readonly<NavigationComponentState> = { toolbarTitle: 'Currency exchange' };
 
     public componentWillReceiveProps(nextProps: NavigationComponentProps) {
         this.setState({ toolbarTitle: this.getCurrentTitle(nextProps) });
@@ -40,7 +36,7 @@ class NavigationC extends React.Component<NavigationComponentProps, NavigationCo
                 mobileDrawerType={NavigationDrawer.DrawerTypes.TEMPORARY_MINI}
                 tabletDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
                 desktopDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
-                navItems={navItems.map(({ to, label, exact, icon}) => <Button key={label} >{label}</Button>)}
+                navItems={navItems.map(({ to, label, exact, icon }) => <Button key={label} >{label}</Button>)}
             >
                 {this.props.children}
             </NavigationDrawer>

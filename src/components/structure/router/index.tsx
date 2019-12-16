@@ -1,11 +1,11 @@
-import * as React from 'react';
-import { Route, Switch, RouteComponentProps, withRouter } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter,  Route, Switch, RouteComponentProps, withRouter } from 'react-router-dom';
 
 export const navItems = [{
-  label: 'Inbox',
+  label: 'Currency exchange',
   to: '/',
   exact: true,
-  icon: 'inbox',
+  icon: 'money',
 }, {
   label: 'Starred',
   to: `/starred`,
@@ -24,9 +24,12 @@ const Content = React.lazy(() => import('../../content/content').then(x => ({ de
 
 type AppRouterProps = RouteComponentProps<{}>;
 const AppRouterComponent: React.FunctionComponent<AppRouterProps> = (props) => (
-  <Switch key={props.location.pathname}>
-    {navItems.map(x => <React.Suspense fallback={`I'm loading ${x.label} here`}><Route key={x.label} path={x.to} exact={x.exact} component={Content} /></React.Suspense>)}
-  </Switch>
+  <BrowserRouter>
+    <Switch key={props.location.pathname}>
+      {navItems.map(x => <React.Suspense fallback={`I'm loading ${x.label} here`}><Route key={x.label} path={x.to} exact={x.exact} component={Content} /></React.Suspense>)}
+    </Switch>
+  </BrowserRouter >
+
 );
 
 export const AppRouter = withRouter(AppRouterComponent); 
