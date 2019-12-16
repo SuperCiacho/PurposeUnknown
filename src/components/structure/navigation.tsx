@@ -1,47 +1,59 @@
 import React from 'react';
+import { NavLink, useLocation, match } from 'react-router-dom';
+import { Location } from 'history';
 import { Button } from 'react-md/lib/Buttons';
 import { NavigationDrawer } from 'react-md/lib/NavigationDrawers';
-import { withRouter, RouteComponentProps } from 'react-router';
 import { navItems } from './router';
 
-interface NavigationComponentProps extends RouteComponentProps<{}> {
+export const Navigation: React.FunctionComponent = ({ children }) => {
+    return (
+        <NavigationDrawer
+            toolbarTitle={useTitle()}
+            mobileDrawerType={NavigationDrawer.DrawerTypes.TEMPORARY_MINI}
+            tabletDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
+            desktopDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
+            navItems={useLinks()}
+        >
+            {children}
+        </NavigationDrawer>
+    );
+};
+
+function useTitle(): string {
+    const [title, setTitle] = React.useState<string>('Currency exchange');
+    const { pathname } = useLocation();
+    React.useEffect(
+        () => {
+            const lastSection = pathname.substring(pathname.lastIndexOf('/') + 1).replace('-', '') || 'Currency exchange';
+            setTitle(lastSection.charAt(0).toUpperCase() + lastSection.slice(1))
+        },
+        [pathname]
+    );
+    return title;
 }
 
-interface NavigationComponentState {
-    toolbarTitle: string;
-}
+const style: React.CSSProperties = { display: 'block', marginTop: 10, marginBottom: 10, marginLeft: 5, marginRight: 5  };
+const activeStyle: React.CSSProperties = {  fontWeight: 600, color: '#FFE600' };
 
-class NavigationC extends React.Component<NavigationComponentProps, NavigationComponentState> {
-    public readonly state: Readonly<NavigationComponentState> = { toolbarTitle: 'Currency exchange' };
-
-    public componentWillReceiveProps(nextProps: NavigationComponentProps) {
-        this.setState({ toolbarTitle: this.getCurrentTitle(nextProps) });
-    }
-
-    public getCurrentTitle(props: NavigationComponentProps) {
-        const pathName = props.location.pathname;
-        const lastSection = pathName.substring(pathName.lastIndexOf('/') + 1);
-        if (lastSection === 'navigation-drawers') {
-            return 'Inbox';
-        }
-
-        return lastSection;
-    }
-
-    public render() {
-        const { toolbarTitle } = this.state;
-        return (
-            <NavigationDrawer
-                toolbarTitle={toolbarTitle}
-                mobileDrawerType={NavigationDrawer.DrawerTypes.TEMPORARY_MINI}
-                tabletDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
-                desktopDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
-                navItems={navItems.map(({ to, label, exact, icon }) => <Button key={label} >{label}</Button>)}
+function useLinks(): React.ReactElement[] {
+    return React.useMemo(() => navItems.map(({ to, label }, ix) =>
+        (
+            <NavLink
+                key={ix}
+                component={Button}
+                to={to}
+                isActive={isLinkActive}
+                activeStyle={activeStyle}
+                style={style}
             >
-                {this.props.children}
-            </NavigationDrawer>
-        );
-    }
+                {label}
+            </NavLink>
+        )
+    ),
+        []
+    );
 }
 
-export const Navigation = withRouter(NavigationC);
+function isLinkActive(match: match<never>, location: Location): boolean {
+    return (match && match.url) === location.pathname
+}
