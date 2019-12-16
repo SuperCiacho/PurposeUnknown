@@ -54,6 +54,6 @@ function useLinks(): React.ReactElement[] {
     );
 }
 
-function isLinkActive(match: match<never>, location: Location): boolean {
-    return (match && match.url) === location.pathname
+function isLinkActive(routeMatch: match, location: Location): boolean {
+    return (routeMatch && routeMatch.url) === location.pathname
 }
