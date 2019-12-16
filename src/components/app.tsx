@@ -8,8 +8,10 @@ export const App: React.FunctionComponent = () => (
     <BrowserRouter>
         <div className="app">
             <header><Header /></header>
-            <nav><Navigation /></nav>
-            <main><AppRouter /></main>
+            <main>
+                <nav><Navigation /></nav>
+                <aside><AppRouter /></aside>
+            </main>
         </div>
     </BrowserRouter>
 );

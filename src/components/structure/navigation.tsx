@@ -41,7 +41,9 @@ class NavigationC extends React.Component<NavigationComponentProps, NavigationCo
                 tabletDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
                 desktopDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
                 navItems={navItems.map(({ to, label, exact, icon}) => <Button key={label} >{label}</Button>)}
-            />
+            >
+                {this.props.children}
+            </NavigationDrawer>
         );
     }
 }

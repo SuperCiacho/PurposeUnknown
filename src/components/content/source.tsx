@@ -7,27 +7,25 @@ import { OnSelectCallback } from './typings';
 
 type SourceSelectorProps = { onSelect: OnSelectCallback }
 
+const trackerConfig: Config = { area: 'source', delay: 500 };
+
 export const SourceSelector: React.FunctionComponent<SourceSelectorProps> = ({ onSelect }) => {
-    const trackerConfig: Config = { area: 'source', delay: 500 };
     const [selected, setSelected] = React.useState<string>();
     const items = useCurrencies('EUR', trackerConfig.area)
     const onSourceChanged = React.useCallback((name, ix) => { setSelected(name); onSelect(items![ix]); }, [items, onSelect]);
-    const asyncComponent = useAsync(trackerConfig);
-    if (asyncComponent) {
-        return asyncComponent
-    }
 
-    return (
-        <SelectField
-            id="source"
-            label="Source currency"
-            placeholder="Source currency"
-            value={selected}
-            menuItems={items}
-            itemValue="name"
-            position={SelectField.Positions.BELOW}
-            onChange={onSourceChanged}
-            fullWidth
-        />
-    )
+    return useAsync(trackerConfig) ||
+        (
+            <SelectField
+                id="source"
+                label="Source currency"
+                placeholder="Source currency"
+                value={selected}
+                menuItems={items}
+                itemValue="name"
+                position={SelectField.Positions.BELOW}
+                onChange={onSourceChanged}
+                fullWidth
+            />
+        )
 };

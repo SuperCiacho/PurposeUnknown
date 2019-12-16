@@ -8,30 +8,27 @@ import { useAsync } from '../../utils/hooks';
 import { OnSelectCallback, FieldProps } from './typings';
 
 type TargetSelectorProps = { source?: string, onSelect: OnSelectCallback };
+const trackerConfig: Config = { area: 'target', delay: 500 };
+
 export const TargetSelector: React.FunctionComponent<TargetSelectorProps> = ({ source, onSelect }) => {
-    const trackerConfig: Config = { area: 'target', delay: 500 };
     const [selected, setSelected] = React.useState<string>();
     const items = useCurrencies(source, trackerConfig.area).map(x => ({ ...x, customize }));
     const onTargetChanged = React.useCallback((name, ix) => { setSelected(name); onSelect(items![ix]) }, [onSelect, items]);
-    const asyncComponent = useAsync(trackerConfig);
-    if (asyncComponent) {
-        return asyncComponent
-    }
-
-    return (
-        <SelectField
-            id="target"
-            label="Target currency"
-            placeholder="Target currency"
-            menuItems={items}
-            itemValue="name"
-            itemProps="customize"
-            position={SelectField.Positions.BELOW}
-            value={selected}
-            onChange={onTargetChanged}
-            fullWidth
-        />
-    )
+    return useAsync(trackerConfig) ||
+        (
+            <SelectField
+                id="target"
+                label="Target currency"
+                placeholder="Target currency"
+                menuItems={items}
+                itemValue="name"
+                itemProps="customize"
+                position={SelectField.Positions.BELOW}
+                value={selected}
+                onChange={onTargetChanged}
+                fullWidth
+            />
+        )
 };
 
 function customize(fieldProps: FieldProps<Currency>): ListItemProps {
