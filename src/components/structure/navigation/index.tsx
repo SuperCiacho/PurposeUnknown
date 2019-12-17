@@ -2,11 +2,13 @@ import React from 'react';
 import { NavLink, useLocation, useHistory } from 'react-router-dom';
 import { Button } from 'react-md/lib/Buttons';
 import { NavigationDrawer } from 'react-md/lib/NavigationDrawers';
-import { navItems } from './router';
+import { navItems } from '../router';
+import { styles } from './style';
 
-export const Navigation: React.FunctionComponent = React.memo(({ children }) => {
+export const Navigation: React.FunctionComponent = ({ children }) => {
     return (
         <NavigationDrawer
+            contentStyle={styles.content}
             toolbarTitle={useTitle()}
             mobileDrawerType={NavigationDrawer.DrawerTypes.TEMPORARY_MINI}
             tabletDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
@@ -16,7 +18,7 @@ export const Navigation: React.FunctionComponent = React.memo(({ children }) => 
             {children}
         </NavigationDrawer>
     );
-});
+};
 
 function useTitle(): string {
     const [title, setTitle] = React.useState<string>('Currency exchange');
@@ -31,8 +33,6 @@ function useTitle(): string {
     return title;
 }
 
-const style: React.CSSProperties = { display: 'block', marginTop: 10, marginBottom: 10, marginLeft: 5, marginRight: 5 };
-const activeStyle: React.CSSProperties = { fontWeight: 600, color: '#FFE600' };
 
 function useLinks(): React.ReactElement[] {
     const { push } = useHistory();
@@ -42,8 +42,8 @@ function useLinks(): React.ReactElement[] {
                 key={ix}
                 component={Button}
                 to={to}
-                activeStyle={activeStyle}
-                style={style}
+                activeStyle={styles.link.active}
+                style={styles.link.root}
                 exact
                 onClick={event => { event.preventDefault(); push(to); }}
             >

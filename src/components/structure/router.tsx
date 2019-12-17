@@ -1,16 +1,20 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
+const Exchange = React.lazy(() => import('../exchange').then(x => ({ default: x.Exchange })))
+const Directory = React.lazy(() => import('../directory').then(x => ({ default: x.Directory })))
+const Settings = React.lazy(() => import('../settings').then(x => ({ default: x.Settings })))
+
 export const navItems = [
-  { label: 'Currency exchange', to: '/', exact: true, icon: 'money' },
-  { label: 'Starred', to: `/starred`, icon: 'star' },
-  { label: 'Settings', to: `/settings`, icon: 'cob' }
+  { label: 'Currency exchange', component: Exchange, to: '/', icon: 'money', exact: true, },
+  { label: 'Directory', component: Directory, to: `/directory`, icon: 'star' },
+  { label: 'Settings', component: Settings, to: `/settings`, icon: 'cob' },
 ];
 
-const Content = React.lazy(() => import('../content').then(x => ({ default: x.Content })))
-
-export const AppRouter: React.FunctionComponent = memo(() => (
-  <Switch>
-    {navItems.map(x => <React.Suspense fallback={<p>`I'm loading ${x.label} here`</p>}><Route key={x.label} path={x.to} exact={x.exact} component={Content} /></React.Suspense>)}
-  </Switch>
+export const AppRouter: React.FunctionComponent = React.memo(() => (
+  <React.Suspense fallback={<p>I'm loading here</p>}>
+    <Switch>
+      {navItems.map(({ to, exact, component }, ix) => <Route key={ix} path={to} exact={exact} component={component} />)}
+    </Switch>
+  </React.Suspense>
 ));

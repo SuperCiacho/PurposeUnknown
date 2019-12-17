@@ -7,7 +7,7 @@ import { SourceSelector } from './source';
 import { TargetSelector } from './target';
 import { Currency } from '../../models/currency';
 
-export const Content: React.FunctionComponent = () => {
+export const Exchange: React.FunctionComponent = () => {
     const [source, selectSource] = React.useState<Currency>();
     const [target, selectTarget] = React.useState<Currency>();
 
