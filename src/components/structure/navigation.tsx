@@ -20,7 +20,7 @@ export const Navigation: React.FunctionComponent = ({ children }) => {
 };
 
 function useTitle(): string {
-    const [title, setTitle] = React.useState<string>('Purpose unknown');
+    const [title, setTitle] = React.useState<string>('Currency exchange');
     const { pathname } = useLocation();
     React.useEffect(
         () => {
