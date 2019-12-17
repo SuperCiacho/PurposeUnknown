@@ -21,9 +21,7 @@ interface ExchangeResponse {
 type RequestType = 'latest' | 'history';
 
 export class CurrencyService {
-    // email: j4189033@nwytg.net
     private getApiURL(type: RequestType): string {
-        // return `http://data.fixer.io/api/${type}?access_key=${Configuration.accessKey}`
         return `https://api.exchangeratesapi.io/${type}`;
     }
 

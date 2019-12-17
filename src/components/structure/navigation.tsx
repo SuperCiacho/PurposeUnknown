@@ -1,11 +1,10 @@
 import React from 'react';
-import { NavLink, useLocation, match } from 'react-router-dom';
-import { Location } from 'history';
+import { NavLink, useLocation, useHistory } from 'react-router-dom';
 import { Button } from 'react-md/lib/Buttons';
 import { NavigationDrawer } from 'react-md/lib/NavigationDrawers';
 import { navItems } from './router';
 
-export const Navigation: React.FunctionComponent = ({ children }) => {
+export const Navigation: React.FunctionComponent = React.memo(({ children }) => {
     return (
         <NavigationDrawer
             toolbarTitle={useTitle()}
@@ -17,7 +16,7 @@ export const Navigation: React.FunctionComponent = ({ children }) => {
             {children}
         </NavigationDrawer>
     );
-};
+});
 
 function useTitle(): string {
     const [title, setTitle] = React.useState<string>('Currency exchange');
@@ -32,28 +31,25 @@ function useTitle(): string {
     return title;
 }
 
-const style: React.CSSProperties = { display: 'block', marginTop: 10, marginBottom: 10, marginLeft: 5, marginRight: 5  };
-const activeStyle: React.CSSProperties = {  fontWeight: 600, color: '#FFE600' };
+const style: React.CSSProperties = { display: 'block', marginTop: 10, marginBottom: 10, marginLeft: 5, marginRight: 5 };
+const activeStyle: React.CSSProperties = { fontWeight: 600, color: '#FFE600' };
 
 function useLinks(): React.ReactElement[] {
-    return React.useMemo(() => navItems.map(({ to, label }, ix) =>
-        (
+    const { push } = useHistory();
+    return React.useMemo(
+        () => navItems.map(({ to, label }, ix) =>
             <NavLink
                 key={ix}
                 component={Button}
                 to={to}
-                isActive={isLinkActive}
                 activeStyle={activeStyle}
                 style={style}
+                exact
+                onClick={event => { event.preventDefault(); push(to); }}
             >
                 {label}
             </NavLink>
-        )
-    ),
-        []
+        ),
+        [push]
     );
-}
-
-function isLinkActive(routeMatch: match, location: Location): boolean {
-    return routeMatch?.url === location.pathname;
 }
