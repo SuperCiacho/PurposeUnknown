@@ -14,29 +14,29 @@ on:
       - master
 
 env:
-  AZURE_WEBAPP_NAME: yorgi   
-  AZURE_WEBAPP_PACKAGE_PATH: './build/*.*'
-  NODE_VERSION: '10.x'
+  AZURE_WEBAPP_NAME: yorgi
+  AZURE_WEBAPP_PACKAGE_PATH: "./build"
+  NODE_VERSION: "10.x"
 
 jobs:
   build-and-deploy:
     name: Build and Deploy
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: Use Node.js ${{ env.NODE_VERSION }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-    - name: yarn
-      run: |
-        # Build and test the project, then
-        # deploy to Azure Web App.
-        yarn install
-        yarn build
-    - name: 'Deploy to Azure WebApp'
-      uses: azure/webapps-deploy@v1
-      with:
-        app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+      - uses: actions/checkout@master
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Install dependencies
+        run: |
+          yarn install
+      - name: Build app
+        run: |
+          yarn build
+      - name: "Deploy to Azure WebApp"
+        uses: azure/webapps-deploy@v1
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
