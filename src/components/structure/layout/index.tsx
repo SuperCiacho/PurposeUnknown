@@ -1,19 +1,26 @@
 import React from 'react';
 import { NavLink, useLocation, useHistory } from 'react-router-dom';
 import { Button } from 'react-md/lib/Buttons';
+import { FontIcon } from 'react-md/lib/FontIcons';
 import { NavigationDrawer } from 'react-md/lib/NavigationDrawers';
 import { navItems } from '../router';
 import { styles } from './style';
+import { Footer } from './footer';
 
-export const Navigation: React.FunctionComponent = ({ children }) => {
+export const AppLayout: React.FunctionComponent = ({ children }) => {
+    const [drawerVisible, setDrawerVisibility] = React.useState(false);
     return (
         <NavigationDrawer
+            visible={drawerVisible}
+            onVisibilityChange={setDrawerVisibility}
             contentStyle={styles.content}
             toolbarTitle={useTitle()}
+            drawerTitle="Purpose unknown"
+            drawerChildren={<Footer />}
             mobileDrawerType={NavigationDrawer.DrawerTypes.TEMPORARY_MINI}
             tabletDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
             desktopDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
-            navItems={useLinks()}
+            navItems={useLinks(drawerVisible)}
         >
             {children}
         </NavigationDrawer>
@@ -34,10 +41,10 @@ function useTitle(): string {
 }
 
 
-function useLinks(): React.ReactElement[] {
+function useLinks(drawerOpened: boolean): React.ReactElement[] {
     const { push } = useHistory();
     return React.useMemo(
-        () => navItems.map(({ to, label }, ix) =>
+        () => navItems.map(({ to, label, icon }, ix) =>
             <NavLink
                 key={ix}
                 component={Button}
@@ -47,9 +54,10 @@ function useLinks(): React.ReactElement[] {
                 exact
                 onClick={event => { event.preventDefault(); push(to); }}
             >
-                {label}
+                <FontIcon style={styles.link.icon} >{icon}</FontIcon>
+                {drawerOpened && <div style={styles.link.text}>{label}</div>}
             </NavLink>
         ),
-        [push]
+        [push, drawerOpened]
     );
 }

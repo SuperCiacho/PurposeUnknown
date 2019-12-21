@@ -1,12 +1,12 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { Navigation } from './structure/navigation';
+import { AppLayout } from './structure/layout';
 import { AppRouter } from './structure/router';
 
 export const App: React.FunctionComponent = () => (
     <BrowserRouter>
-        <Navigation>
+        <AppLayout>
             <AppRouter />
-        </Navigation>
+        </AppLayout>
     </BrowserRouter >
 );

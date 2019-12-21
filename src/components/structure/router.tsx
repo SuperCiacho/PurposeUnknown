@@ -6,9 +6,9 @@ const Directory = React.lazy(() => import('../directory').then(x => ({ default: 
 const Settings = React.lazy(() => import('../settings').then(x => ({ default: x.Settings })))
 
 export const navItems = [
-  { label: 'Currency exchange', component: Exchange, to: '/', icon: 'money', exact: true, },
-  { label: 'Directory', component: Directory, to: `/directory`, icon: 'star' },
-  { label: 'Settings', component: Settings, to: `/settings`, icon: 'cob' },
+  { label: 'Currency exchange', component: Exchange, to: '/', icon: 'monetization_on', exact: true, },
+  { label: 'Directory', component: Directory, to: `/directory`, icon: 'stars' },
+  { label: 'Settings', component: Settings, to: `/settings`, icon: 'build' },
 ];
 
 export const AppRouter: React.FunctionComponent = React.memo(() => (
