@@ -1,13 +1,10 @@
 @import "globals";
 
-@include react-md-everything;
-
 html,
 body {
   margin: 0;
   padding: 0;
   height: 100vh;
-  background-color: #62a4b6;
   display: flex;
   flex-direction: column;
 }

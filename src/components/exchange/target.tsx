@@ -25,6 +25,7 @@ export const TargetSelector: React.FunctionComponent<TargetSelectorProps> = ({ s
                 itemProps="customize"
                 position={SelectField.Positions.BELOW}
                 value={selected}
+                disabled={!source}
                 onChange={onTargetChanged}
                 fullWidth
             />
