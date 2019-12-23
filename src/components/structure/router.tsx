@@ -1,15 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-
-const Exchange = React.lazy(() => import('../exchange').then(x => ({ default: x.Exchange })))
-const Directory = React.lazy(() => import('../directory').then(x => ({ default: x.Directory })))
-const Settings = React.lazy(() => import('../settings').then(x => ({ default: x.Settings })))
-
-export const navItems = [
-  { label: 'Currency exchange', component: Exchange, to: '/', icon: 'monetization_on', exact: true, },
-  { label: 'Directory', component: Directory, to: `/directory`, icon: 'stars' },
-  { label: 'Settings', component: Settings, to: `/settings`, icon: 'build' },
-];
+import { navItems } from 'src/routes';
 
 export const AppRouter: React.FunctionComponent = React.memo(() => (
   <React.Suspense fallback={<p>I'm loading here</p>}>

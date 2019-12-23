@@ -1,11 +1,10 @@
 import React from 'react';
-import { NavLink, useLocation, useHistory } from 'react-router-dom';
-import { Button } from 'react-md/lib/Buttons';
-import { FontIcon } from 'react-md/lib/FontIcons';
+import { useLocation } from 'react-router-dom';
 import { NavigationDrawer } from 'react-md/lib/NavigationDrawers';
-import { navItems } from '../router';
+import { navItems } from '../../../routes';
 import { styles } from './style';
 import { Footer } from './footer';
+import { NavigationLink } from './link';
 
 export const AppLayout: React.FunctionComponent = ({ children }) => {
     const [drawerVisible, setDrawerVisibility] = React.useState(false);
@@ -40,24 +39,9 @@ function useTitle(): string {
     return title;
 }
 
-
 function useLinks(drawerOpened: boolean): React.ReactElement[] {
-    const { push } = useHistory();
     return React.useMemo(
-        () => navItems.map(({ to, label, icon }, ix) =>
-            <NavLink
-                key={ix}
-                component={Button}
-                to={to}
-                activeStyle={styles.link.active}
-                style={styles.link.root}
-                exact
-                onClick={event => { event.preventDefault(); push(to); }}
-            >
-                <FontIcon style={styles.link.icon} >{icon}</FontIcon>
-                {drawerOpened && <div style={styles.link.text}>{label}</div>}
-            </NavLink>
-        ),
-        [push, drawerOpened]
-    );
+        () => navItems.map((link => <NavigationLink key={link.name} link={link} expanded={drawerOpened} />)),
+            [drawerOpened]
+        );
 }
