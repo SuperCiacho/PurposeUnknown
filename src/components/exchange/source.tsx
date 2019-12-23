@@ -11,7 +11,7 @@ const trackerConfig: Config = { area: 'source', delay: 500 };
 
 export const SourceSelector: React.FunctionComponent<SourceSelectorProps> = ({ onSelect }) => {
     const [selected, setSelected] = React.useState<string>();
-    const items = useCurrencies('EUR', trackerConfig.area)
+    const items = useCurrencies('EUR', trackerConfig.area, true)
     const onSourceChanged = React.useCallback((name, ix) => { setSelected(name); onSelect(items![ix]); }, [items, onSelect]);
 
     return useAsync(trackerConfig) ||

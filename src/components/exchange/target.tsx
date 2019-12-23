@@ -12,7 +12,8 @@ const trackerConfig: Config = { area: 'target', delay: 500 };
 
 export const TargetSelector: React.FunctionComponent<TargetSelectorProps> = ({ source, onSelect }) => {
     const [selected, setSelected] = React.useState<string>();
-    const items = useCurrencies(source, trackerConfig.area).map(x => ({ ...x, customize }));
+    const items = useCurrencies(source, trackerConfig.area)
+    const customizedItems = React.useMemo(() => items.map(x => ({ ...x, customize })), [items]);
     const onTargetChanged = React.useCallback((name, ix) => { setSelected(name); onSelect(items![ix]) }, [onSelect, items]);
     return useAsync(trackerConfig) ||
         (
@@ -20,7 +21,7 @@ export const TargetSelector: React.FunctionComponent<TargetSelectorProps> = ({ s
                 id="target"
                 label="Target currency"
                 placeholder="Target currency"
-                menuItems={items}
+                menuItems={customizedItems}
                 itemValue="name"
                 itemProps="customize"
                 position={SelectField.Positions.BELOW}

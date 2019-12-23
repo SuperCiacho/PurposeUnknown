@@ -25,14 +25,16 @@ export class CurrencyService {
         return `https://api.exchangeratesapi.io/${type}`;
     }
 
-    public async list(base: string = 'EUR'): Promise<Currency[]> {
+    public async list(base: string = 'EUR', withSource?: boolean): Promise<Currency[]> {
         let url = `${this.getApiURL('latest')}?base=${base}`;
         const response: CurrencyResponse = await fetch(url).then(x => x.json());
         const rates = response.rates;
-        const currencies = Object.keys(rates)
-            .map(k => new Currency(k, rates[k]))
+        if (withSource && rates[base] === undefined) {
+            rates[base] = 1;
+        }
+
+        return Object.keys(rates).map(k => new Currency(k, rates[k]))
             .sort((x, y) => x.name.localeCompare(y.name));
-        return currencies;
     }
 
     public async getExchangeHistory(base: string, target: string): Promise<CurrencyExchange[]> {

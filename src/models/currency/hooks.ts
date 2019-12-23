@@ -4,28 +4,47 @@ import { CurrencyService } from "./service";
 import { Currency, CurrencyExchange } from ".";
 
 const service: CurrencyService = new CurrencyService();
+const emptyArray: any[] = [];
+type SimpleCache<T> = { [key: string]: T };
 
-export function useCurrencies(source?: string, area?: string): Currency[] {
-    const [data, setData] = React.useState<Currency[]>([]);
+export function useCurrencies(source?: string, area?: string, withSource?: boolean): Currency[] {
+    const [data, setData] = React.useState<SimpleCache<Currency[]>>({});
+    const result = data[source || ''];
     React.useEffect(
         () => {
-            if (source) {
-                trackPromise(service.list(source).then(setData), area)
+            if (!result && source) {
+                trackPromise(service.list(source, withSource)
+                    .then(currencies =>
+                        setData(store => {
+                            store[source] = currencies;
+                            return store
+                        })
+                    ),
+                    area
+                );
             }
         },
-        [source, area])
-    return data;
+        [source, area, result, withSource])
+    return result || emptyArray;
 }
 
 export function useExchange(source?: string, target?: string, area?: string): CurrencyExchange[] {
-    const [data, setData] = React.useState<CurrencyExchange[]>([]);
+    const [data, setData] = React.useState<SimpleCache<CurrencyExchange[]>>({});
+    const result = data['' + source + target];
     React.useEffect(
         () => {
-            if (source && target) {
-                trackPromise(service.getExchangeHistory(source, target).then(setData), area)
-            }
+            if (!result && source && target) {
+                trackPromise(service.getExchangeHistory(source, target)
+                    .then(exchanges =>
+                        setData(store => {
+                            store[source + target] = exchanges;
+                            return store;
+                        })),
+                    area
+                )
+            };
         },
-        [source, target, area]
+        [source, target, area, result]
     );
-    return data;
+    return result || emptyArray;
 }
