@@ -1,7 +1,7 @@
-import React from "react";
-import { trackPromise } from "react-promise-tracker";
-import { CurrencyService } from "./service";
-import { Currency, CurrencyExchange } from ".";
+import React from 'react';
+import { trackPromise } from 'react-promise-tracker';
+import { CurrencyService } from './service';
+import { Currency, CurrencyExchange } from '.';
 
 const service: CurrencyService = new CurrencyService();
 const emptyArray: any[] = [];

@@ -31,8 +31,7 @@ function useTitle(): string {
     const { pathname } = useLocation();
     React.useEffect(
         () => {
-            const lastSection = pathname.substring(pathname.lastIndexOf('/') + 1).replace('-', '') || 'Currency exchange';
-            setTitle(lastSection.charAt(0).toUpperCase() + lastSection.slice(1))
+            setTitle(navItems.find(x => pathname === (x.to))!.name)
         },
         [pathname]
     );
@@ -42,6 +41,6 @@ function useTitle(): string {
 function useLinks(drawerOpened: boolean): React.ReactElement[] {
     return React.useMemo(
         () => navItems.map((link => <NavigationLink key={link.name} link={link} expanded={drawerOpened} />)),
-            [drawerOpened]
-        );
+        [drawerOpened]
+    );
 }
