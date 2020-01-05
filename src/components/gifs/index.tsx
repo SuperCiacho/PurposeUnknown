@@ -8,11 +8,12 @@ import { GifList } from './gif';
 export const GifSearch: React.FunctionComponent = () => {
     const [keywords, setKeywords] = React.useState<string | number>('');
     const [limit, setLimit] = React.useState<string | number>();
+    const [offset, setOffset] = React.useState<string | number>();
     const onKeywordsChange = React.useCallback(debounce(setKeywords, 500), [])
     return (
         <Paper zDepth={2}>
             <Grid spacing={1}>
-                <Cell size={8}>
+                <Cell size={10}>
                     <TextField
                         id="gif-search"
                         label="GIF search"
@@ -20,7 +21,7 @@ export const GifSearch: React.FunctionComponent = () => {
                         onChange={onKeywordsChange}
                     />
                 </Cell>
-                <Cell size={4}>
+                <Cell size={1} position="right">
                     <TextField
                         id="gif-limit"
                         type="number"
@@ -33,7 +34,20 @@ export const GifSearch: React.FunctionComponent = () => {
                         onChange={setLimit}
                     />
                 </Cell>
-                <GifList keywords={keywords as string} limit={limit as number} />
+                <Cell size={1} position="right">
+                    <TextField
+                        id="gif-offset"
+                        type="number"
+                        min={1}
+                        max={100}
+                        label="Offset"
+                        placeholder="Set optional offset of gifs"
+                        helpText="Between 1-100"
+                        value={offset}
+                        onChange={setOffset}
+                    />
+                </Cell>
+                <GifList keywords={keywords as string} limit={limit as number} offset={offset as number} />
             </Grid>
         </Paper>
     )
