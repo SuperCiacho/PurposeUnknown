@@ -3,8 +3,8 @@ export const styles: GifsStyles = {
         display: 'flex',
         flexWrap: 'wrap',
         justifyContent: 'center',
-        paddingLeft: '2rem',
-        paddingRight: '2rem',
+        paddingLeft: 10,
+        paddingRight: 10
     },
     contentWrapper: {
         display: 'flex',
@@ -15,6 +15,7 @@ export const styles: GifsStyles = {
         marginRight: 10,
         border: "1px solid #455A54"
     },
+    content: { width: '100%' },
     spinner: { position: 'absolute' },
     error: { position: 'absolute', color: '#90A4AE' },
 }
@@ -22,6 +23,7 @@ export const styles: GifsStyles = {
 type GifsStyles = {
     list: React.CSSProperties,
     contentWrapper: React.CSSProperties,
+    content: React.CSSProperties,
     spinner: React.CSSProperties,
     error: React.CSSProperties
 }

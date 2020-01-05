@@ -12,8 +12,8 @@ export const Gif: React.FunctionComponent<GifProps> = ({ gif, hdMode }) => {
             {loading && <CircularProgress id={gif.id} style={styles.spinner} />}
             {error && <div style={styles.error}>Preview unavailable</div>}
             {hdMode ?
-                <video autoPlay loop src={gif.images.fixed_height.mp4} onLoadedData={onLoaded} /> :
-                <img src={gif.images.fixed_height_downsampled.url} alt={gif.title} onLoad={onLoaded} onError={onError} />
+                <video style={styles.content} autoPlay loop src={gif.images.fixed_height.mp4} onLoadedData={onLoaded} /> :
+                <img style={styles.content} src={gif.images.fixed_height_downsampled.url} alt={gif.title} onLoad={onLoaded} onError={onError} />
             }
         </div>
     );
