@@ -29,12 +29,7 @@ export const AppLayout: React.FunctionComponent = ({ children }) => {
 function useTitle(): string {
     const [title, setTitle] = React.useState<string>('Currency exchange');
     const { pathname } = useLocation();
-    React.useEffect(
-        () => {
-            setTitle(navItems.find(x => pathname === (x.to))!.name)
-        },
-        [pathname]
-    );
+    React.useEffect(() => setTitle(navItems.find(x => pathname === (x.to))!.name), [pathname]);
     return title;
 }
 

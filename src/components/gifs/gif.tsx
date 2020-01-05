@@ -6,9 +6,9 @@ import { useGiphySearch } from 'src/models/giphy/hooks';
 import { useAsync } from 'src/utils/hooks';
 
 const trackerConfig: Config = { area: 'gif-search', delay: 500 };
-type GifListProps = { keywords: string };
-export const GifList: React.FunctionComponent<GifListProps> = ({ keywords }) => {
-    const gifs = useGiphySearch(keywords).map(x => <Gif key={x.id} {...x} />);
+type GifListProps = { keywords: string, limit?: number };
+export const GifList: React.FunctionComponent<GifListProps> = ({ keywords, limit }) => {
+    const gifs = useGiphySearch(trackerConfig.area!, keywords, limit).map(x => <Gif key={x.id} {...x} />);
     return useAsync(trackerConfig) || <div style={styles.list}>{gifs}</div>
 }
 
@@ -24,7 +24,7 @@ const Gif: React.FunctionComponent<GIFObject> = gif => {
         <div style={styles.contentWrapper}>
             {loading && <CircularProgress id={gif.id} style={styles.spinner} />}
             {error && <div style={styles.error}>Preview unavailable</div>}
-            <video autoPlay loop src={gif.images.fixed_height.webp} onLoadedData={onLoaded} onError={onError} />
+            <video autoPlay loop src={gif.images.fixed_height.mp4} onLoadedData={onLoaded} onError={onError} />
         </div>
     );
 };
