@@ -38,7 +38,7 @@ export const GifSearch: React.FunctionComponent = () => {
                         <React.Fragment>
                             <SelectionControl type="checkbox" id="gif-quality" label="HD mode" name="hd-mode" labelBefore checked={hdMode} onChange={onHDModeChanged} />
                             <Slider id="gif-limit" min={1} max={100} label="Limit" value={limit} onChange={setLimit} discrete />
-                            <Slider id="gif-offset" min={1} max={100} label="Offset" value={offset} onChange={setOffset} discrete />
+                            <Slider id="gif-offset" min={0} max={100} label="Offset" value={offset} onChange={setOffset} discrete />
                         </React.Fragment>
                     </Collapse>
                 </Cell>
