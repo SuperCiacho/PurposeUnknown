@@ -4,6 +4,7 @@ import { Grid, Cell } from 'react-md/lib/Grids';
 import { Paper } from 'react-md/lib/Papers';
 import { TextField } from 'react-md/lib/TextFields';
 import { ValidationProvider, useValidationContext } from './context';
+import { Validations } from './validator';
 
 class Person {
     name?: string;
@@ -44,28 +45,31 @@ const ValidationDetails: React.FunctionComponent<Person> = props => {
 
 const UserName: React.FunctionComponent<UserNameProps> = ({ value, onChange }) => {
     const { validator } = useValidationContext<Person>();
-    React.useEffect(() => validator.register('name', exists, value => value!.length > 2), [validator])
+    React.useEffect(() => validator.register('name', Validations.exists, Validations.minLength(2)), [validator])
     return <TextField id='name' label="Name" required name='name' value={value} onChange={onChange} />;
 }
 
 const UserBirthDay: React.FunctionComponent<UserBirthdayProps> = ({ value, onChange }) => {
     const { validator } = useValidationContext<Person>();
-    React.useEffect(() => validator.register('birthDate', exists), [validator])
+    React.useEffect(() => validator.register('birthDate', Validations.exists), [validator])
     return <DatePicker id="birthDate" name="birthDate" required label="Birth date" inline fullWidth value={value} onChange={onChange} />;
 }
 
 const UserEmail: React.FunctionComponent<UserEmailProps> = ({ value, onChange }) => {
     const { validator } = useValidationContext<Person>();
-    React.useEffect(() => validator.register('email', exists, value => value.length > 5), [validator]);
+    React.useEffect(
+        () => validator.register(
+            'email',
+            Validations.exists,
+            Validations.email
+        ),
+        [validator]
+    );
     return <TextField id="email" label="Email" name="email" type="email" value={value} onChange={onChange} />;
 }
 
-function exists(value: unknown) {
-    return !!value
-}
+
 
 type UserNameProps = { value?: string, onChange(value: string | number, event: Event): void };
 type UserBirthdayProps = { value?: Date, onChange(formattedDate: string, date: Date, event: Event): void };
 type UserEmailProps = { value?: string, onChange(value: string | number, event: Event): void };
-
-
