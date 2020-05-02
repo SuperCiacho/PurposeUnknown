@@ -13,17 +13,17 @@ export const styles: GifsStyles = {
         maxWidth: '100%',
         marginTop: 10,
         marginRight: 10,
-        border: "1px solid #455A54"
+        border: '1px solid #455A54'
     },
     content: { width: '100%' },
     spinner: { position: 'absolute' },
-    error: { position: 'absolute', color: '#90A4AE' },
-}
+    error: { position: 'absolute', color: '#90A4AE' }
+};
 
 type GifsStyles = {
-    list: React.CSSProperties,
-    contentWrapper: React.CSSProperties,
-    content: React.CSSProperties,
-    spinner: React.CSSProperties,
-    error: React.CSSProperties
-}
+    list: React.CSSProperties;
+    contentWrapper: React.CSSProperties;
+    content: React.CSSProperties;
+    spinner: React.CSSProperties;
+    error: React.CSSProperties;
+};

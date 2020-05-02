@@ -8,14 +8,16 @@ import { Validations } from './validator';
 
 class Person {
     name?: string;
+
     birthDate?: Date;
+
     email?: string;
 }
 
 export const User: React.FunctionComponent = () => {
-    const [person, setPerson] = React.useState<Person>(new Person())
-    const updateName = React.useCallback((value: string) => setPerson(p => ({ ...p, name: value })), [])
-    const updateEmail = React.useCallback((value: string) => setPerson(p => ({ ...p, email: value })), [])
+    const [person, setPerson] = React.useState<Person>(new Person());
+    const updateName = React.useCallback((value: string) => setPerson(p => ({ ...p, name: value })), []);
+    const updateEmail = React.useCallback((value: string) => setPerson(p => ({ ...p, email: value })), []);
     const updateBirthDate = React.useCallback((_, date: Date) => setPerson(p => ({ ...p, birthDate: date })), []);
 
     return (
@@ -38,38 +40,51 @@ export const User: React.FunctionComponent = () => {
 
 const ValidationDetails: React.FunctionComponent<Person> = props => {
     const { validator } = useValidationContext<Person>();
-    return <React.Fragment>
-        <div>Object is {validator.validate(props) || 'in'}valid</div>
-    </React.Fragment>;
-}
+    return (
+        <>
+            <div>Object is {validator.validate(props) || 'in'}valid</div>
+        </>
+    );
+};
 
 const UserName: React.FunctionComponent<UserNameProps> = ({ value, onChange }) => {
     const { validator } = useValidationContext<Person>();
-    React.useEffect(() => validator.register('name', Validations.exists, Validations.minLength(2)), [validator])
-    return <TextField id='name' label="Name" required name='name' value={value} onChange={onChange} />;
-}
+    React.useEffect(() => validator.register('name', Validations.exists, Validations.minLength(2)), [validator]);
+    return <TextField id="name" label="Name" required name="name" value={value} onChange={onChange} />;
+};
 
 const UserBirthDay: React.FunctionComponent<UserBirthdayProps> = ({ value, onChange }) => {
     const { validator } = useValidationContext<Person>();
-    React.useEffect(() => validator.register('birthDate', Validations.exists), [validator])
-    return <DatePicker id="birthDate" name="birthDate" required label="Birth date" inline fullWidth value={value} onChange={onChange} />;
-}
+    React.useEffect(() => validator.register('birthDate', Validations.exists), [validator]);
+    return (
+        <DatePicker
+            id="birthDate"
+            name="birthDate"
+            required
+            label="Birth date"
+            inline
+            fullWidth
+            value={value}
+            onChange={onChange}
+        />
+    );
+};
 
 const UserEmail: React.FunctionComponent<UserEmailProps> = ({ value, onChange }) => {
     const { validator } = useValidationContext<Person>();
-    React.useEffect(
-        () => validator.register(
-            'email',
-            Validations.exists,
-            Validations.email
-        ),
-        [validator]
-    );
+    React.useEffect(() => validator.register('email', Validations.exists, Validations.email), [validator]);
     return <TextField id="email" label="Email" name="email" type="email" value={value} onChange={onChange} />;
-}
+};
 
-
-
-type UserNameProps = { value?: string, onChange(value: string | number, event: Event): void };
-type UserBirthdayProps = { value?: Date, onChange(formattedDate: string, date: Date, event: Event): void };
-type UserEmailProps = { value?: string, onChange(value: string | number, event: Event): void };
+type UserNameProps = {
+    value?: string;
+    onChange(value: string | number, event: Event): void;
+};
+type UserBirthdayProps = {
+    value?: Date;
+    onChange(formattedDate: string, date: Date, event: Event): void;
+};
+type UserEmailProps = {
+    value?: string;
+    onChange(value: string | number, event: Event): void;
+};

@@ -19,8 +19,7 @@ export const AppLayout: React.FunctionComponent = ({ children }) => {
             mobileDrawerType={NavigationDrawer.DrawerTypes.TEMPORARY_MINI}
             tabletDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
             desktopDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
-            navItems={useLinks(drawerVisible)}
-        >
+            navItems={useLinks(drawerVisible)}>
             {children}
         </NavigationDrawer>
     );
@@ -29,13 +28,16 @@ export const AppLayout: React.FunctionComponent = ({ children }) => {
 function useTitle(): string {
     const [title, setTitle] = React.useState<string>('Currency exchange');
     const { pathname } = useLocation();
-    React.useEffect(() => setTitle(navItems.find(x => pathname === (x.to))!.name), [pathname]);
+    React.useEffect(() => {
+        const name = navItems.find(x => pathname === x.to)?.name;
+        if (name) setTitle(name);
+    }, [pathname]);
     return title;
 }
 
 function useLinks(drawerOpened: boolean): React.ReactElement[] {
     return React.useMemo(
-        () => navItems.map((link => <NavigationLink key={link.name} link={link} expanded={drawerOpened} />)),
+        () => navItems.map(link => <NavigationLink key={link.name} link={link} expanded={drawerOpened} />),
         [drawerOpened]
     );
 }

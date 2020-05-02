@@ -1,8 +1,6 @@
 import React from 'react';
 
-export const Footer: React.FunctionComponent = React.memo(() => (
-    <div style={style}>Created by Yorgi</div>
-));
+export const Footer: React.FunctionComponent = React.memo(() => <div style={style}>Created by Yorgi</div>);
 
 const style: React.CSSProperties = {
     position: 'absolute',
@@ -12,5 +10,5 @@ const style: React.CSSProperties = {
     backgroundColor: '#4a4a4a',
     color: '#FFC600',
     textAlign: 'center',
-    width: '100%',
-}
+    width: '100%'
+};

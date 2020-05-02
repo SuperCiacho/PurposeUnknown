@@ -8,5 +8,5 @@ export const App: React.FunctionComponent = () => (
         <AppLayout>
             <AppRouter />
         </AppLayout>
-    </BrowserRouter >
+    </BrowserRouter>
 );

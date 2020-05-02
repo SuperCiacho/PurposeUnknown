@@ -8,12 +8,10 @@ import './index.scss';
 
 WebFontLoader.load({
     google: {
-        families: ['Roboto:300,400,500,700', 'Material Icons'],
-    },
+        families: ['Roboto:300,400,500,700', 'Material Icons']
+    }
 });
 
-
-(async () => {
-    const AppModule = await import('./components/app');
-    ReactDOM.render(<AppModule.App />, document.getElementById('root'))
-})();
+import('./components/app').then(({ App }) => {
+    ReactDOM.render(<App />, document.getElementById('root'));
+});

@@ -10,14 +10,11 @@ type GifAsyncState = {
 export function useAsyncState(): GifAsyncState {
     const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState(false);
-    const onLoaded = React.useCallback(() => setLoading(false), [])
+    const onLoaded = React.useCallback(() => setLoading(false), []);
     const onError = React.useCallback(() => {
         setLoading(false);
-        setError(true)
-    }, [])
+        setError(true);
+    }, []);
 
-    return React.useMemo(
-        () => ({ loading, error, onLoaded, onError }),
-        [loading, error, onLoaded, onError]
-    );
+    return React.useMemo(() => ({ loading, error, onLoaded, onError }), [loading, error, onLoaded, onError]);
 }

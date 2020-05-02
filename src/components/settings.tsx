@@ -6,8 +6,8 @@ export const Settings: React.FunctionComponent = () => (
     <Paper zDepth={2}>
         <Grid spacing={1}>
             <Cell>
-                <p>There's nothing yet</p>
+                <p>There&apos;s nothing yet</p>
             </Cell>
         </Grid>
     </Paper>
-)
+);

@@ -27,8 +27,8 @@ export interface GIFObject {
     images: Images;
 }
 
-export type Rating = "y" | "g" | "pg" | "pg-13" | "r";
-export type Format = "html" | "json";
+export type Rating = 'y' | 'g' | 'pg' | 'pg-13' | 'r';
+export type Format = 'html' | 'json';
 
 interface BaseImage {
     url: string;
@@ -101,7 +101,7 @@ interface Images {
         webp: string;
         webp_size: string;
     };
-    looping: { mp4: string; };
+    looping: { mp4: string };
     preview: {
         width: string;
         height: string;
@@ -112,6 +112,3 @@ interface Images {
         size: string;
     };
 }
-
-
-

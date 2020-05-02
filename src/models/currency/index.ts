@@ -5,6 +5,7 @@ export class Currency {
     }
 
     public readonly name: string;
+
     public readonly value: number;
 }
 
@@ -14,7 +15,10 @@ export class CurrencyExchange {
         this.value1 = value1;
         this.value2 = value2;
     }
-    public readonly date:string;
+
+    public readonly date: string;
+
     public readonly value1: number;
+
     public readonly value2: number;
 }

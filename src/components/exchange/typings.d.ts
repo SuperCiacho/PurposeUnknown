@@ -6,8 +6,8 @@ type FieldProps<T> = {
     active: boolean;
     disabled: boolean;
     itemValue: keyof T;
-    value: string
-    props: ListItemProps
-    item: T
-    field: React.ReactElement
-}
+    value: string;
+    props: ListItemProps;
+    item: T;
+    field: React.ReactElement;
+};
