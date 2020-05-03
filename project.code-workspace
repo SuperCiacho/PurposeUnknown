@@ -10,7 +10,9 @@
 		},
 		"typescript.tsdk": "node_modules\\typescript\\lib",
 		"files.trimFinalNewlines": true,
-		"editor.renderFinalNewline": false,
-		"prettier.requireConfig": true
+		"prettier.requireConfig": true,
+		"prettier.configPath": ".prettierrc",
+		"prettier.endOfLine": "auto",
+		"editor.renderFinalNewline": false
 	}
 }

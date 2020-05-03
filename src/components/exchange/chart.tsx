@@ -1,13 +1,11 @@
 import React from 'react';
 import { List, ListItem } from 'react-md/lib/Lists';
-import {} from 'react-md/lib/TextFields';
-import { Config } from 'react-promise-tracker';
-import { useExchange } from '../../models/currency/hooks';
-import { useAsync } from '../../utils/hooks';
+import { useExchange } from 'src/models/currency/hooks';
+import { useAsync, TrackerConfig } from 'src/utils/hooks';
 
 type ChartProps = { source?: string; target?: string };
 export const Chart: React.FunctionComponent<ChartProps> = ({ source, target }) => {
-    const trackerConfig: Config = { area: 'chart' };
+    const trackerConfig: TrackerConfig = { area: 'chart' };
     const data = useExchange(source, target, trackerConfig.area);
     return (
         useAsync(trackerConfig) ||

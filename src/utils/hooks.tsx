@@ -2,7 +2,7 @@ import React from 'react';
 import { Config, usePromiseTracker } from 'react-promise-tracker';
 import { CircularProgress } from 'react-md/lib/Progress';
 
-export function useAsync(trackerConfig: Required<Config>): React.ReactElement | null {
+export function useAsync(trackerConfig: TrackerConfig): React.ReactElement | null {
     const { promiseInProgress } = usePromiseTracker(trackerConfig);
 
     if (promiseInProgress) {
@@ -11,3 +11,5 @@ export function useAsync(trackerConfig: Required<Config>): React.ReactElement | 
 
     return null;
 }
+
+export type TrackerConfig = Config & Required<Pick<Config, 'area'>>;

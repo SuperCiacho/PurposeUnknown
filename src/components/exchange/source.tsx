@@ -1,13 +1,12 @@
 import React from 'react';
-import { Config } from 'react-promise-tracker';
 import { SelectField } from 'react-md/lib/SelectFields';
 import { useCurrencies } from '../../models/currency/hooks';
-import { useAsync } from '../../utils/hooks';
+import { useAsync, TrackerConfig } from '../../utils/hooks';
 import { OnSelectCallback } from './typings';
 
 type SourceSelectorProps = { onSelect: OnSelectCallback };
 
-const trackerConfig: Config = { area: 'source', delay: 500 };
+const trackerConfig: TrackerConfig = { area: 'source', delay: 500 };
 
 export const SourceSelector: React.FunctionComponent<SourceSelectorProps> = ({ onSelect }) => {
     const [selected, setSelected] = React.useState<string>();
