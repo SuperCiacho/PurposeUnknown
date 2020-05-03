@@ -30,7 +30,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - name: Install dependencies
         run: |
-          yarn install --production
+          yarn install
       - name: Run lint
         run: |
           yarn lint
